@@ -21,9 +21,9 @@ impl Display for WalkResult {
 
 pub fn walk(path: &[Position], items: &[Item], log: bool) -> WalkResult {
     let mut my_pos = Position(0, 0);
-    let mut my_distance = 30;
+    let mut my_distance = crate::MAX_MOVES;
     let mut my_score = 0;
-    let mut my_weight = 30;
+    let mut my_weight = crate::MAX_WEIGHT;
     for step in path {
         let item = items.iter().find(|x| x.position == *step);
         if step.distance(my_pos) <= my_distance {
@@ -42,11 +42,12 @@ pub fn walk(path: &[Position], items: &[Item], log: bool) -> WalkResult {
         }
         if log {
             println!(
-                "({}, {}), ${}, {}/30kg, {}m left",
+                "({}, {}), ${}, {}/{}kg, {}m left",
                 my_pos.0,
                 my_pos.1,
                 my_score,
-                30 - my_weight,
+                crate::MAX_WEIGHT - my_weight,
+                crate::MAX_WEIGHT,
                 my_distance
             );
         }
@@ -57,8 +58,8 @@ pub fn walk(path: &[Position], items: &[Item], log: bool) -> WalkResult {
 
 pub fn collects_all_items(path: &[Position], items: &[Item]) -> bool {
     let mut my_pos = Position(0, 0);
-    let mut my_distance = 30;
-    let mut my_weight = 30;
+    let mut my_distance = crate::MAX_MOVES;
+    let mut my_weight = crate::MAX_WEIGHT;
     let mut collected = 0;
     for step in path {
         let item = items.iter().find(|x| x.position == *step);

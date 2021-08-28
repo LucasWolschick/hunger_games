@@ -18,6 +18,6 @@ fn main() {
     // the best path is the one with the largest survival score.
 
     let items = hunger_games::data::all_map_items(&item_db, &map);
-    let best_path = pathfind::find_best_path(Position(0, 0), &items[..], 30, 30).positions;
+    let best_path = pathfind::find_best_path(Position(0, 0), &items[..], hunger_games::MAX_MOVES, hunger_games::MAX_WEIGHT).positions;
     walker::walk(&best_path, &items[..], true);
 }

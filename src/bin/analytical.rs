@@ -60,7 +60,7 @@ fn main() {
     let mut best = [Path::default(); 40];
 
     for set in 0..=2_u64.pow(20) {
-        if weight(set) <= 30 {
+        if weight(set) <= hunger_games::MAX_WEIGHT.into() {
             let worst_score = best[best.len() - 1];
 
             let score = Path {
@@ -96,7 +96,7 @@ fn main() {
             .cloned()
             .filter(|i| (path.vars >> ((i.id - 1) as u64)) & 1 == 1)
             .collect();
-        let best_path = pathfind::find_best_path(Position(0, 0), &items[..], 30, 30);
+        let best_path = pathfind::find_best_path(Position(0, 0), &items[..], hunger_games::MAX_MOVES, hunger_games::MAX_WEIGHT);
         // we have our path. walk it
         if walker::collects_all_items(&best_path.positions[..], &items) {
             // we have a best path
