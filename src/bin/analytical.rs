@@ -59,7 +59,15 @@ fn main() {
     // get the best possible paths
     let mut best = [Path::default(); 40];
 
-    for set in 0..=2_u64.pow(20) {
+    let num_items = item_db.len();
+    let num_items = if num_items > 64 {
+        eprintln!("Warning: the analytical solution can only test up to 64 items!");
+        64
+    } else {
+        num_items
+    };
+
+    for set in 0..=2_u64.pow(num_items as u32) {
         if weight(set) <= hunger_games::MAX_WEIGHT.into() {
             let worst_score = best[best.len() - 1];
 

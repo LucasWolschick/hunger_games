@@ -7,7 +7,7 @@ pub enum Element {
 pub struct Database {
     headers: Vec<String>,
     data: Vec<Vec<Element>>,
-    // items: usize,
+    items: usize,
 }
 
 #[repr(transparent)]
@@ -42,7 +42,7 @@ impl Database {
         Some(Self {
             headers,
             data,
-            // items: height
+            items: height
         })
     }
 
@@ -58,9 +58,13 @@ impl Database {
         Some(self.data[self.category(category)?.0].as_slice())
     }
 
-    // pub fn len(&self) -> usize {
-    //     self.items
-    // }
+    pub fn len(&self) -> usize {
+        self.items
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.items == 0
+    }
 
     pub fn index(&self, key: &str, value: &str) -> Option<usize> {
         let cat_id = self.category(key).map(|v| v.0)?;
