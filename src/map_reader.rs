@@ -5,7 +5,7 @@ type Id = u32;
 #[derive(Copy, Clone, Debug)]
 pub enum Cell {
     Empty,
-    Filled(Id)
+    Filled(Id),
 }
 
 pub struct Map {
@@ -28,11 +28,16 @@ impl Map {
                 let c = chars[i];
                 if c.is_numeric() {
                     // chomp chomp til we done
-                    let mut to = i+1;
+                    let mut to = i + 1;
                     while to < chars.len() && chars[to].is_numeric() {
                         to += 1;
                     }
-                    let num: Id = chars[i..to].iter().collect::<String>().as_str().parse().unwrap();
+                    let num: Id = chars[i..to]
+                        .iter()
+                        .collect::<String>()
+                        .as_str()
+                        .parse()
+                        .unwrap();
                     data.push(Cell::Filled(num));
                     w += 1;
                     i = to;
@@ -44,7 +49,7 @@ impl Map {
                     i += 1;
                 }
             }
-            
+
             if let Some(width) = width {
                 if width != w {
                     eprintln!("Invalid map input: differing lengths!");
@@ -66,16 +71,16 @@ impl Map {
         if x >= self.width || y >= self.height {
             Cell::Empty
         } else {
-            self.data[y*self.width + x]
+            self.data[y * self.width + x]
         }
     }
 
     pub fn find_coords(&self, item_id: Id) -> Option<Position> {
         for y in 0..self.height {
             for x in 0..self.width {
-                if let Cell::Filled(id) = self.data[y*self.width + x] {
+                if let Cell::Filled(id) = self.data[y * self.width + x] {
                     if id == item_id {
-                        return Some(Position(x as _, y as _))
+                        return Some(Position(x as _, y as _));
                     }
                 }
             }

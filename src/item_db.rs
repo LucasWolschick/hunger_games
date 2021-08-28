@@ -1,7 +1,7 @@
 #[derive(Clone, Debug)]
 pub enum Element {
     Empty,
-    Full(String)
+    Full(String),
 }
 
 pub struct Database {
@@ -18,8 +18,12 @@ impl Database {
         let contents = contents.trim();
         let mut lines = contents.lines();
         let header = lines.next()?;
-        
-        let width = lines.clone().map(|s| s.split(',').count()).max().unwrap_or(0);
+
+        let width = lines
+            .clone()
+            .map(|s| s.split(',').count())
+            .max()
+            .unwrap_or(0);
         let height = lines.clone().count();
 
         let mut headers: Vec<_> = header.split(',').map(str::to_string).collect();
@@ -34,7 +38,7 @@ impl Database {
                 data[prop_id][elem_id] = Element::Full(value.into());
             }
         }
-        
+
         Some(Self {
             headers,
             data,
@@ -43,7 +47,11 @@ impl Database {
     }
 
     pub fn category(&self, name: &str) -> Option<DbIndex> {
-        self.headers.iter().enumerate().find(|(_, e)| *e == name).map(|(i, _)| DbIndex(i))
+        self.headers
+            .iter()
+            .enumerate()
+            .find(|(_, e)| *e == name)
+            .map(|(i, _)| DbIndex(i))
     }
 
     pub fn get_values(&self, category: &str) -> Option<&[Element]> {
@@ -56,14 +64,20 @@ impl Database {
 
     pub fn index(&self, key: &str, value: &str) -> Option<usize> {
         let cat_id = self.category(key).map(|v| v.0)?;
-        
-        Some(self.data[cat_id].iter().enumerate().find(|(_, e)| {
-            if let Element::Full(f) = e {
-                f.as_str() == value
-            } else {
-                false
-            }
-        })?.0)
+
+        Some(
+            self.data[cat_id]
+                .iter()
+                .enumerate()
+                .find(|(_, e)| {
+                    if let Element::Full(f) = e {
+                        f.as_str() == value
+                    } else {
+                        false
+                    }
+                })?
+                .0,
+        )
     }
 
     pub fn value(&self, key: &str, index: usize) -> Option<&Element> {

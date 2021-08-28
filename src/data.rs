@@ -24,12 +24,15 @@ pub fn all_map_items(item_db: &item_db::Database, map: &map_reader::Map) -> Vec<
         for x in 0..map.width() {
             if let map_reader::Cell::Filled(id) = map.index(x, y) {
                 if let Some(index) = item_db.index("Item", id.to_string().as_ref()) {
-                    let value = if let item_db::Element::Full(s) = item_db.value("Value", index).unwrap() {
-                        s.parse().unwrap_or_default()
-                    } else {
-                        0
-                    };
-                    let weight = if let item_db::Element::Full(s) = item_db.value("Weight", index).unwrap() {
+                    let value =
+                        if let item_db::Element::Full(s) = item_db.value("Value", index).unwrap() {
+                            s.parse().unwrap_or_default()
+                        } else {
+                            0
+                        };
+                    let weight = if let item_db::Element::Full(s) =
+                        item_db.value("Weight", index).unwrap()
+                    {
                         s.parse().unwrap_or_default()
                     } else {
                         0
@@ -39,7 +42,7 @@ pub fn all_map_items(item_db: &item_db::Database, map: &map_reader::Map) -> Vec<
                         value,
                         weight,
                         id: id as i32,
-                    }); 
+                    });
                 }
             }
         }

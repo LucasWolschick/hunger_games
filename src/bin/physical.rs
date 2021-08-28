@@ -1,8 +1,8 @@
 use hunger_games::data::Position;
 use hunger_games::item_db;
 use hunger_games::map_reader;
-use hunger_games::walker;
 use hunger_games::pathfind;
+use hunger_games::walker;
 
 fn main() {
     let item_data = std::fs::read_to_string("data/items.csv").unwrap();

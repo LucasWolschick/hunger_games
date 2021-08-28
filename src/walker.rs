@@ -41,7 +41,14 @@ pub fn walk(path: &[Position], items: &[Item], log: bool) -> WalkResult {
             return WalkResult::NoTimeLeft;
         }
         if log {
-            println!("({}, {}), ${}, {}/30kg, {}m left", my_pos.0, my_pos.1, my_score, 30-my_weight, my_distance);
+            println!(
+                "({}, {}), ${}, {}/30kg, {}m left",
+                my_pos.0,
+                my_pos.1,
+                my_score,
+                30 - my_weight,
+                my_distance
+            );
         }
     }
 
